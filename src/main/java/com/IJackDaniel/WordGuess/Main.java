@@ -7,10 +7,8 @@ public class Main {
         WordGuessGame game = new WordGuessGame();
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Загадано слово: купол\n");
-
         String tryInput;
-        int[] result = new int[] {0, 0, 0, 0, 0};
+        int[] result;
         boolean win = false;
         while (!win) {
             System.out.print("\nВведите слово: ");

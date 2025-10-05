@@ -1,11 +1,34 @@
 package com.IJackDaniel.WordGuess;
 
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Random;
+
 public class WordGuessGame {
     private String guessWord;
+    private ArrayList<String> dataOfWords;
 
     public WordGuessGame() {
-        // Get random word from list
-        this.guessWord = "купол";
+        this.dataOfWords = new ArrayList<>();
+        readFromFile();
+        startGame();
+    }
+
+    public void startGame() {
+        Random random = new Random();
+        int randInt = random.nextInt(dataOfWords.toArray().length);
+        this.guessWord = dataOfWords.get(randInt);
+    }
+
+    private void readFromFile() {
+        try (BufferedReader reader = new BufferedReader(new FileReader("Data\\russianWords.txt"))) {
+            String string;
+            while ((string=reader.readLine()) != null) {
+                this.dataOfWords.add(string);
+            }
+        } catch (IOException exception) {
+            System.out.println("Ошибка! " + exception.getMessage());
+        }
     }
 
     public int[] inputWord(String inputWord) {
@@ -32,5 +55,9 @@ public class WordGuessGame {
 
         }
         return result;
+    }
+
+    public String getGuessWord() {
+        return this.guessWord;
     }
 }
