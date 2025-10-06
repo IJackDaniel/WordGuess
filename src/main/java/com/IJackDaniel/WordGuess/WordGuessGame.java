@@ -1,5 +1,6 @@
 package com.IJackDaniel.WordGuess;
 
+import com.IJackDaniel.WordGuess.Exceptions.DigitInWordException;
 import com.IJackDaniel.WordGuess.Exceptions.InvalidWordException;
 import com.IJackDaniel.WordGuess.Exceptions.LengthArrayException;
 
@@ -10,6 +11,8 @@ import java.util.Random;
 public class WordGuessGame {
     private String guessWord;
     private ArrayList<String> dataOfWords;
+    private ArrayList<String> guesses = new ArrayList<>();
+    private ArrayList<int[]> resultsGuesses = new ArrayList<>();
 
     public WordGuessGame() {
         this.dataOfWords = new ArrayList<>();
@@ -34,7 +37,7 @@ public class WordGuessGame {
         }
     }
 
-    public int[] inputWord(String inputWord) throws LengthArrayException, InvalidWordException {
+    public int[] inputWord(String inputWord) throws LengthArrayException, InvalidWordException, DigitInWordException {
         // Array of input results:
         // 0 - There is no letter in the word
         // 1 - The letters are in the word, but not in their place
@@ -46,6 +49,12 @@ public class WordGuessGame {
 
         if (charArrayInputWord.length != charArrayGuessWord.length) {
             throw new LengthArrayException("В слове должно быть 5 букв");
+        }
+
+        for (char character : charArrayInputWord) {
+            if (Character.isDigit(character)) {
+                throw new DigitInWordException("В введённом слове не должно быть цифр");
+            }
         }
 
         if (!dataOfWords.contains(inputWord)) {
@@ -65,10 +74,21 @@ public class WordGuessGame {
             }
 
         }
+        guesses.add(inputWord);
+        resultsGuesses.add(result);
+
         return result;
     }
 
     public String getGuessWord() {
         return this.guessWord;
+    }
+
+    public ArrayList<String> getGuesses() {
+        return this.guesses;
+    }
+
+    public ArrayList<int[]> getResultsGuesses() {
+        return this.resultsGuesses;
     }
 }
