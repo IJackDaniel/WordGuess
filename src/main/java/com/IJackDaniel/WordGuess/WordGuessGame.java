@@ -1,5 +1,8 @@
 package com.IJackDaniel.WordGuess;
 
+import com.IJackDaniel.WordGuess.Exceptions.InvalidWordException;
+import com.IJackDaniel.WordGuess.Exceptions.LengthArrayException;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Random;
@@ -31,7 +34,7 @@ public class WordGuessGame {
         }
     }
 
-    public int[] inputWord(String inputWord) {
+    public int[] inputWord(String inputWord) throws LengthArrayException, InvalidWordException {
         // Array of input results:
         // 0 - There is no letter in the word
         // 1 - The letters are in the word, but not in their place
@@ -40,6 +43,14 @@ public class WordGuessGame {
 
         char[] charArrayGuessWord = this.guessWord.toCharArray();
         char[] charArrayInputWord = inputWord.toCharArray();
+
+        if (charArrayInputWord.length != charArrayGuessWord.length) {
+            throw new LengthArrayException("В слове должно быть 5 букв");
+        }
+
+        if (!dataOfWords.contains(inputWord)) {
+            throw new InvalidWordException("Такого слова не существует");
+        }
 
         for (int i = 0; i < charArrayGuessWord.length; i++) {
             if (charArrayInputWord[i] == charArrayGuessWord[i]) {

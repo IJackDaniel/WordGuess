@@ -1,19 +1,42 @@
 package com.IJackDaniel.WordGuess;
 
-import java.util.Scanner;
+import com.IJackDaniel.WordGuess.Exceptions.InvalidWordException;
+import com.IJackDaniel.WordGuess.Exceptions.LengthArrayException;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void clearConsole() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+
+    public static void main(String[] args) throws LengthArrayException, InvalidWordException {
         WordGuessGame game = new WordGuessGame();
-        Scanner scanner = new Scanner(System.in);
+        BufferedReader bufferedReader = new BufferedReader(
+                new InputStreamReader(System.in, StandardCharsets.UTF_8));
 
         String tryInput;
         int[] result;
         boolean win = false;
+
         while (!win) {
-            System.out.print("\nВведите слово: ");
-            tryInput = scanner.nextLine();
-            result = game.inputWord(tryInput);
+            System.out.print("\nВведите слово из 5 букв: ");
+            try {
+                tryInput = bufferedReader.readLine();
+            } catch (Exception exception) {
+                System.out.println("Ошибка ввода");
+                continue;
+            }
+
+            try {
+                result = game.inputWord(tryInput);
+            } catch (InvalidWordException | LengthArrayException exception) {
+                System.out.println("\n" + exception.getMessage());
+                continue;
+            }
             int sum = 0;
             for (int digit : result) {
                 System.out.print(digit + " ");
@@ -24,6 +47,6 @@ public class Main {
                 win = true;
             }
         }
-        System.out.println("\nВы выиграли! Загаданное слово: купол");
+        System.out.println("\nВы выиграли!");
     }
 }
