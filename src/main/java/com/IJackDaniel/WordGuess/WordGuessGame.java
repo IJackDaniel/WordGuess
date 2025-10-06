@@ -6,6 +6,7 @@ import com.IJackDaniel.WordGuess.Exceptions.LengthArrayException;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.Random;
 
 public class WordGuessGame {
@@ -13,9 +14,14 @@ public class WordGuessGame {
     private ArrayList<String> dataOfWords;
     private ArrayList<String> guesses = new ArrayList<>();
     private ArrayList<int[]> resultsGuesses = new ArrayList<>();
+    private LinkedHashMap<Character, Integer> alphabet = new LinkedHashMap<>();
 
     public WordGuessGame() {
         this.dataOfWords = new ArrayList<>();
+        char[] arrayOfLetters = "йцукенгшщзхъфывапролджэячсмитьбю".toCharArray();
+        for (char letter : arrayOfLetters) {
+            alphabet.put(letter, -1);
+        }
         readFromFile();
         startGame();
     }
@@ -62,12 +68,15 @@ public class WordGuessGame {
         }
 
         for (int i = 0; i < charArrayGuessWord.length; i++) {
+            alphabet.put(charArrayInputWord[i], 0);
             if (charArrayInputWord[i] == charArrayGuessWord[i]) {
                 result[i] = 2;
+                alphabet.put(charArrayInputWord[i], 2);
             } else {
                 for (char c : charArrayGuessWord) {
                     if (charArrayInputWord[i] == c) {
                         result[i] = 1;
+                        alphabet.put(charArrayInputWord[i], 1);
                         break;
                     }
                 }
@@ -90,5 +99,9 @@ public class WordGuessGame {
 
     public ArrayList<int[]> getResultsGuesses() {
         return this.resultsGuesses;
+    }
+
+    public LinkedHashMap<Character, Integer> getAlphabet() {
+        return this.alphabet;
     }
 }

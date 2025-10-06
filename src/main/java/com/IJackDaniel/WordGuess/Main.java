@@ -10,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 public class Main {
     public static void clearConsole() {
@@ -20,7 +21,6 @@ public class Main {
     public static void printInfo(WordGuessGame game) {
         ArrayList<String> guesses = game.getGuesses();
         ArrayList<int[]> resultsGuesses = game.getResultsGuesses();
-        System.out.print("\n");
         if (!guesses.isEmpty()) {
             for (int i = 0; i < guesses.size(); i++) {
                 String guessWord = guesses.get(i);
@@ -37,6 +37,25 @@ public class Main {
 
                 System.out.print("\n");
             }
+        }
+        System.out.print("\n");
+        printKeyboard(game);
+    }
+
+    public static void printKeyboard(WordGuessGame game) {
+        LinkedHashMap<Character, Integer> keyboard = game.getAlphabet();
+        for (Character key : keyboard.keySet()) {
+            if (keyboard.get(key) == 2) {
+                AnsiConsole.out().print(Ansi.ansi().bgGreen().fgBlack().a(key).reset());
+            } else if (keyboard.get(key) == 1) {
+                AnsiConsole.out().print(Ansi.ansi().bgYellow().fgBlack().a(key).reset());
+            } else if (keyboard.get(key) == 0){
+                AnsiConsole.out().print(Ansi.ansi().bgRed().fgBlack().a(key).reset());
+            } else {
+                AnsiConsole.out().print(Ansi.ansi().bgRgb(255, 255, 255).fgBlack().a(key).reset());
+            }
+            if (key.equals('ъ') || key.equals('э')) System.out.print("\n");
+
         }
     }
 
