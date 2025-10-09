@@ -9,8 +9,8 @@ import org.fusesource.jansi.AnsiConsole;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Main {
     public static void clearConsole() {
@@ -19,8 +19,8 @@ public class Main {
     }
 
     public static void printInfo(WordGuessGame game) {
-        ArrayList<String> guesses = game.getGuesses();
-        ArrayList<int[]> resultsGuesses = game.getResultsGuesses();
+        List<String> guesses = game.getGuesses();
+        List<int[]> resultsGuesses = game.getResultsGuesses();
         if (!guesses.isEmpty()) {
             for (int i = 0; i < guesses.size(); i++) {
                 String guessWord = guesses.get(i);
@@ -43,7 +43,7 @@ public class Main {
     }
 
     public static void printKeyboard(WordGuessGame game) {
-        LinkedHashMap<Character, Integer> keyboard = game.getAlphabet();
+        Map<Character, Integer> keyboard = game.getAlphabet();
         for (Character key : keyboard.keySet()) {
             if (keyboard.get(key) == 2) {
                 AnsiConsole.out().print(Ansi.ansi().bgGreen().fgBlack().a(key).reset());

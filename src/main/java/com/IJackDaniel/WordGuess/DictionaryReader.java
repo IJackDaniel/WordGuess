@@ -4,9 +4,10 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class DictionaryReader {
-    private final ArrayList<String> dataOfWords;
+    private final List<String> dataOfWords;
 
     public DictionaryReader() {
         dataOfWords = new ArrayList<>();
@@ -24,7 +25,7 @@ public class DictionaryReader {
         }
     }
 
-    public ArrayList<String> getDataOfWords() {
+    public List<String> getDataOfWords() {
         return dataOfWords;
     }
 }

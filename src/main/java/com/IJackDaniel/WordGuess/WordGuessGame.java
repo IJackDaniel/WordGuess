@@ -4,31 +4,33 @@ import com.IJackDaniel.WordGuess.Exceptions.DigitInWordException;
 import com.IJackDaniel.WordGuess.Exceptions.InvalidWordException;
 import com.IJackDaniel.WordGuess.Exceptions.LengthArrayException;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Random;
+import java.util.*;
 
 public class WordGuessGame {
     private String guessWord;
-    private ArrayList<String> dataOfWords;
-    private ArrayList<String> guesses = new ArrayList<>();
-    private ArrayList<int[]> resultsGuesses = new ArrayList<>();
-    private LinkedHashMap<Character, Integer> alphabet = new LinkedHashMap<>();
+    private List<String> dataOfWords;
+    private List<String> guesses;
+    private List<int[]> resultsGuesses;
+    private Map<Character, Integer> alphabet;
     DictionaryReader dictionaryReader;
 
     public WordGuessGame() {
         this.dataOfWords = new ArrayList<>();
         dictionaryReader = new DictionaryReader();
-        char[] arrayOfLetters = "йцукенгшщзхъфывапролджэячсмитьбю".toCharArray();
-        for (char letter : arrayOfLetters) {
-            alphabet.put(letter, -1);
-        }
         dataOfWords = dictionaryReader.getDataOfWords();
         startGame();
     }
 
     public void startGame() {
+        this.guesses = new ArrayList<>();
+        this.resultsGuesses = new ArrayList<>();
+        alphabet = new LinkedHashMap<>();
+
+        char[] arrayOfLetters = "йцукенгшщзхъфывапролджэячсмитьбю".toCharArray();
+        for (char letter : arrayOfLetters) {
+            alphabet.put(letter, -1);
+        }
+
         Random random = new Random();
         int randInt = random.nextInt(dataOfWords.toArray().length);
         this.guessWord = dataOfWords.get(randInt);
@@ -83,15 +85,15 @@ public class WordGuessGame {
         return this.guessWord;
     }
 
-    public ArrayList<String> getGuesses() {
+    public List<String> getGuesses() {
         return this.guesses;
     }
 
-    public ArrayList<int[]> getResultsGuesses() {
+    public List<int[]> getResultsGuesses() {
         return this.resultsGuesses;
     }
 
-    public LinkedHashMap<Character, Integer> getAlphabet() {
+    public Map<Character, Integer> getAlphabet() {
         return this.alphabet;
     }
 }
