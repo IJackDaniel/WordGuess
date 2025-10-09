@@ -15,14 +15,16 @@ public class WordGuessGame {
     private ArrayList<String> guesses = new ArrayList<>();
     private ArrayList<int[]> resultsGuesses = new ArrayList<>();
     private LinkedHashMap<Character, Integer> alphabet = new LinkedHashMap<>();
+    DictionaryReader dictionaryReader;
 
     public WordGuessGame() {
         this.dataOfWords = new ArrayList<>();
+        dictionaryReader = new DictionaryReader();
         char[] arrayOfLetters = "йцукенгшщзхъфывапролджэячсмитьбю".toCharArray();
         for (char letter : arrayOfLetters) {
             alphabet.put(letter, -1);
         }
-        readFromFile();
+        dataOfWords = dictionaryReader.getDataOfWords();
         startGame();
     }
 
@@ -30,17 +32,6 @@ public class WordGuessGame {
         Random random = new Random();
         int randInt = random.nextInt(dataOfWords.toArray().length);
         this.guessWord = dataOfWords.get(randInt);
-    }
-
-    private void readFromFile() {
-        try (BufferedReader reader = new BufferedReader(new FileReader("Data\\russianWords.txt"))) {
-            String string;
-            while ((string=reader.readLine()) != null) {
-                this.dataOfWords.add(string);
-            }
-        } catch (IOException exception) {
-            System.out.println("Ошибка! " + exception.getMessage());
-        }
     }
 
     public int[] inputWord(String inputWord) throws LengthArrayException, InvalidWordException, DigitInWordException {
@@ -68,7 +59,7 @@ public class WordGuessGame {
         }
 
         for (int i = 0; i < charArrayGuessWord.length; i++) {
-            alphabet.put(charArrayInputWord[i], 0);
+            if (alphabet.get(charArrayInputWord[i]) == -1) alphabet.put(charArrayInputWord[i], 0);
             if (charArrayInputWord[i] == charArrayGuessWord[i]) {
                 result[i] = 2;
                 alphabet.put(charArrayInputWord[i], 2);
@@ -76,12 +67,11 @@ public class WordGuessGame {
                 for (char c : charArrayGuessWord) {
                     if (charArrayInputWord[i] == c) {
                         result[i] = 1;
-                        alphabet.put(charArrayInputWord[i], 1);
+                        if (alphabet.get(charArrayInputWord[i]) != 2) alphabet.put(charArrayInputWord[i], 1);
                         break;
                     }
                 }
             }
-
         }
         guesses.add(inputWord);
         resultsGuesses.add(result);
