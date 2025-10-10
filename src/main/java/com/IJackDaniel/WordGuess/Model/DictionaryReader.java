@@ -1,4 +1,4 @@
-package com.IJackDaniel.WordGuess;
+package com.IJackDaniel.WordGuess.Model;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

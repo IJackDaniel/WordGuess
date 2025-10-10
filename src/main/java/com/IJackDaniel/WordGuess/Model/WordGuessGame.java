@@ -1,4 +1,4 @@
-package com.IJackDaniel.WordGuess;
+package com.IJackDaniel.WordGuess.Model;
 
 import com.IJackDaniel.WordGuess.Exceptions.DigitInWordException;
 import com.IJackDaniel.WordGuess.Exceptions.InvalidWordException;
@@ -81,19 +81,7 @@ public class WordGuessGame {
         return result;
     }
 
-    public String getGuessWord() {
-        return this.guessWord;
-    }
-
-    public List<String> getGuesses() {
-        return this.guesses;
-    }
-
-    public List<int[]> getResultsGuesses() {
-        return this.resultsGuesses;
-    }
-
-    public Map<Character, Integer> getAlphabet() {
-        return this.alphabet;
+    public GameData getGameData() {
+        return new GameData(this.guessWord ,this.guesses, this.resultsGuesses, this.alphabet);
     }
 }
