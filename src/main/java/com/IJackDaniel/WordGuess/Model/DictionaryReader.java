@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DictionaryReader {
-    private final List<String> dataOfWords;
+    private final List<String> possibleWords;
 
     public DictionaryReader() {
-        dataOfWords = new ArrayList<>();
+        possibleWords = new ArrayList<>();
         readFromFile();
     }
 
@@ -18,14 +18,14 @@ public class DictionaryReader {
         try (BufferedReader reader = new BufferedReader(new FileReader("Data\\russianWords.txt"))) {
             String string;
             while ((string=reader.readLine()) != null) {
-                this.dataOfWords.add(string);
+                this.possibleWords.add(string);
             }
         } catch (IOException exception) {
             System.out.println("Ошибка! " + exception.getMessage());
         }
     }
 
-    public List<String> getDataOfWords() {
-        return dataOfWords;
+    public List<String> getWords() {
+        return possibleWords;
     }
 }

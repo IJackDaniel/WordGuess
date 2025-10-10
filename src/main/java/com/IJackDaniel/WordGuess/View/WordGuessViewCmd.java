@@ -1,7 +1,6 @@
 package com.IJackDaniel.WordGuess.View;
 
 import com.IJackDaniel.WordGuess.Model.GameData;
-import com.IJackDaniel.WordGuess.Model.WordGuessGame;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
 
@@ -15,7 +14,7 @@ public class WordGuessViewCmd {
     }
 
     public static void printInfo(GameData gameData) {
-        List<String> guesses = gameData.getGuesses();
+        List<String> guesses = gameData.getUserGuesses();
         List<int[]> resultsGuesses = gameData.getResultsGuesses();
         if (!guesses.isEmpty()) {
             for (int i = 0; i < guesses.size(); i++) {
@@ -40,7 +39,7 @@ public class WordGuessViewCmd {
     }
 
     public static void printKeyboard(GameData gameData) {
-        Map<Character, Integer> keyboard = gameData.getAlphabet();
+        Map<Character, Integer> keyboard = gameData.getGameAlphabet();
         for (Character key : keyboard.keySet()) {
             if (keyboard.get(key) == 2) {
                 AnsiConsole.out().print(Ansi.ansi().bgGreen().fgBlack().a(key).reset());

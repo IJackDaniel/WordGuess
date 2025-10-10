@@ -1,8 +1,6 @@
 package com.IJackDaniel.WordGuess;
 
-import com.IJackDaniel.WordGuess.Exceptions.DigitInWordException;
-import com.IJackDaniel.WordGuess.Exceptions.InvalidWordException;
-import com.IJackDaniel.WordGuess.Exceptions.LengthArrayException;
+import com.IJackDaniel.WordGuess.Exceptions.WordException;
 import com.IJackDaniel.WordGuess.Model.WordGuessGame;
 import com.IJackDaniel.WordGuess.View.WordGuessViewCmd;
 import org.fusesource.jansi.AnsiConsole;
@@ -12,7 +10,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 
 public class Main {
-    public static void main(String[] args) throws LengthArrayException, InvalidWordException {
+    public static void main(String[] args) {
         AnsiConsole.systemInstall();
         try {
             WordGuessGame game = new WordGuessGame();
@@ -35,7 +33,7 @@ public class Main {
 
                 try {
                     result = game.inputWord(tryInput);
-                } catch (InvalidWordException | LengthArrayException | DigitInWordException exception) {
+                } catch (WordException exception) {
                     WordGuessViewCmd.printError(exception);
                     continue;
                 }
