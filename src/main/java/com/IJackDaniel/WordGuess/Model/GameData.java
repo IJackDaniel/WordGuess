@@ -8,12 +8,14 @@ public class GameData {
     private List<String> userGuesses;
     private List<int[]> resultsGuesses;
     private Map<Character, Integer> gameAlphabet;
+    private Exception lastException;
 
-    public GameData(String guessWord, List<String> userGuesses, List<int[]> resultsGuesses, Map<Character, Integer> gameAlphabet) {
+    public GameData(String guessWord, List<String> userGuesses, List<int[]> resultsGuesses, Map<Character, Integer> gameAlphabet, Exception lastException) {
         this.guessWord = guessWord;
         this.userGuesses = userGuesses;
         this.resultsGuesses = resultsGuesses;
         this.gameAlphabet = gameAlphabet;
+        this.lastException = lastException;
     }
 
     public String getGuessWord() {
@@ -30,5 +32,9 @@ public class GameData {
 
     public Map<Character, Integer> getGameAlphabet() {
         return this.gameAlphabet;
+    }
+
+    public Exception getLastException() {
+        return this.lastException;
     }
 }

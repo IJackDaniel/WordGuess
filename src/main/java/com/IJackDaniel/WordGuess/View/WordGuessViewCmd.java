@@ -9,8 +9,8 @@ import java.util.Map;
 
 public class WordGuessViewCmd {
     public static void clearConsole() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
+        AnsiConsole.out.print("\033[H\033[2J");
+        AnsiConsole.out.flush();
     }
 
     public static void printInfo(GameData gameData) {
@@ -33,9 +33,12 @@ public class WordGuessViewCmd {
                 System.out.print("\n");
             }
         }
-        System.out.print("\n");
+        AnsiConsole.out.print("\n");
         printKeyboard(gameData);
-        System.out.print("\nВведите слово из 5 букв: ");
+        if (gameData.getLastException() != null) {
+            printError(gameData.getLastException());
+        }
+        AnsiConsole.out.print("\nВведите слово из 5 букв: ");
     }
 
     public static void printKeyboard(GameData gameData) {
@@ -56,11 +59,12 @@ public class WordGuessViewCmd {
     }
 
     public static void printWin(GameData gameData) {
-        System.out.println("\nВы выиграли! Загаданное слово: " + gameData.getGuessWord());
+        AnsiConsole.out.print("\nВы выиграли! Загаданное слово: ");
+        AnsiConsole.out.print(Ansi.ansi().bgGreen().fgBlack().a(gameData.getGuessWord()).reset());
     }
 
     public static void printError(Exception exception) {
-        System.out.println("Ошибка!");
-        System.out.println(exception.getMessage());
+        AnsiConsole.out.println("\n\nОшибка!");
+        AnsiConsole.out.println(exception.getMessage());
     }
 }

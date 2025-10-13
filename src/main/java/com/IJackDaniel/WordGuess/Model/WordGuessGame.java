@@ -3,7 +3,6 @@ package com.IJackDaniel.WordGuess.Model;
 import com.IJackDaniel.WordGuess.Exceptions.InvalidWordException;
 import com.IJackDaniel.WordGuess.Exceptions.LengthArrayException;
 import com.IJackDaniel.WordGuess.Exceptions.OutOfAlphabetException;
-import com.IJackDaniel.WordGuess.Exceptions.WordException;
 
 import java.util.*;
 
@@ -13,11 +12,11 @@ public class WordGuessGame {
     private List<String> userGuesses;
     private List<int[]> resultsGuesses;
     private Map<Character, Integer> gameAlphabet;
-    private DictionaryReader dictionaryReader;
     private final String RUSSIAN_ALPHABET = "йцукенгшщзхъфывапролджэячсмитьбю";
+    private Exception lastException;
 
     public WordGuessGame() {
-        this.dictionaryReader = new DictionaryReader();
+        DictionaryReader dictionaryReader = new DictionaryReader();
         this.possibleWords = dictionaryReader.getWords();
         startGame();
     }
@@ -25,19 +24,20 @@ public class WordGuessGame {
     public void startGame() {
         this.userGuesses = new ArrayList<>();
         this.resultsGuesses = new ArrayList<>();
-        gameAlphabet = new LinkedHashMap<>();
+        this.lastException = null;
+        this.gameAlphabet = new LinkedHashMap<>();
 
         char[] arrayOfLetters = RUSSIAN_ALPHABET.toCharArray();
         for (char letter : arrayOfLetters) {
-            gameAlphabet.put(letter, -1);
+            this.gameAlphabet.put(letter, -1);
         }
 
         Random random = new Random();
-        int randInt = random.nextInt(possibleWords.toArray().length);
-        this.guessWord = possibleWords.get(randInt);
+        int randInt = random.nextInt(this.possibleWords.toArray().length);
+        this.guessWord = this.possibleWords.get(randInt);
     }
 
-    public int[] inputWord(String inputWord) {
+    public void inputWord(String inputWord) {
         // Array of input results:
         // 0 - There is no letter in the word
         // 1 - The letters are in the word, but not in their place
@@ -84,11 +84,27 @@ public class WordGuessGame {
         }
         userGuesses.add(inputWord);
         resultsGuesses.add(result);
-
-        return result;
     }
 
     public GameData getGameData() {
-        return new GameData(this.guessWord ,this.userGuesses, this.resultsGuesses, this.gameAlphabet);
+        return new GameData(this.guessWord ,this.userGuesses, this.resultsGuesses, this.gameAlphabet, this.lastException);
+    }
+
+    public boolean isWin() {
+        int[] lastResult = this.resultsGuesses.get(this.resultsGuesses.size() - 1);
+        for (int digit : lastResult) {
+            if (digit != 2) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void setLastException(Exception exception) {
+        this.lastException = exception;
+    }
+
+    public void resetLastException() {
+        this.lastException = null;
     }
 }

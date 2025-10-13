@@ -18,40 +18,28 @@ public class Main {
                     new InputStreamReader(System.in, StandardCharsets.UTF_8));
 
             String tryInput;
-            int[] result;
             boolean win = false;
-
             while (!win) {
                 WordGuessViewCmd.clearConsole();
                 WordGuessViewCmd.printInfo(game.getGameData());
+                game.resetLastException();
                 try {
                     tryInput = bufferedReader.readLine();
                 } catch (Exception exception) {
-                    WordGuessViewCmd.printError(exception);
+                    game.setLastException(exception);
                     continue;
                 }
 
                 try {
-                    result = game.inputWord(tryInput);
+                    game.inputWord(tryInput);
+                    if (game.isWin()) win = true;
                 } catch (WordException exception) {
-                    WordGuessViewCmd.printError(exception);
-                    continue;
+                    game.setLastException(exception);
                 }
-
-                if (checkWin(result)) win = true;
             }
             WordGuessViewCmd.printWin(game.getGameData());
         } finally {
             AnsiConsole.systemUninstall();
         }
-    }
-
-    private static boolean checkWin(int[] result) {
-        int sum = 0;
-        for (int digit : result) {
-            sum += digit;
-        }
-
-        return sum == (5 * 2);
     }
 }
